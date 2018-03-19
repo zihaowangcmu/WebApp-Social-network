@@ -1,0 +1,36 @@
+{% extends "socialnetwork/base.html" %}
+
+{% block current_page %}
+	~ What's New Here ~
+{% endblock %}
+
+{% block navigation_bar %}
+    <ul class="nav_class_list">
+	  <li><a class="nav_class_bullet" href="{% url 'myProfile' %}">{{user.username}}</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'global_stream' %}">Stream</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'follower_stream' %}">Following</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'logout' %}" method="get">Logout</a></li>
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<!-- display error messages if any -->
+	{% for error in errors %}
+	    <div class="error">
+	        {{error}}
+	    </div>
+	{% endfor %}
+	<!-- make a new post -->
+	<div>
+		<form method='post' action="{% url 'add_post' %}", class="add_post">
+			Say something...
+			<input type="text"   name="post" >
+			<input type="submit" value="Post">
+			{% csrf_token %}
+		</form>
+	</div>
+	<br/>
+
+	<div class='poster'>
+	</div>
+{% endblock %}

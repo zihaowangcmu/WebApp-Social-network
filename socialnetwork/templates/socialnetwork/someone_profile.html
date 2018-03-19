@@ -1,0 +1,55 @@
+{% extends "socialnetwork/base.html" %}
+
+{% block current_page %}
+	~ Someone's Secret Base ~
+{% endblock %}
+
+{% block navigation_bar %}
+    <ul class="nav_class_list">
+	  <li><a class="nav_class_bullet" href="{% url 'myProfile' %}">{{user.username}}</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'global_stream' %}">Stream</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'follower_stream' %}">Following</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'logout' %}" method="get">Logout</a></li>
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<ul class="myProfile_list">
+		{% for item in items %}
+	        {% if item.picture %}
+	            <img src="{% url 'get_photo' item.id %}" alt="user picture fail to display" width="200px">
+	            <br>
+	        {% endif %}
+		{% endfor %}
+
+		<ul>User Name : {{user_being_viewed.user.username}} </ul>
+		<ul>Bio       : {{user_being_viewed.bio}}  </ul>
+		<ul>Following : </ul>
+		{% for member in following_list %}
+			<a class="following_followed_by_list" href="{% url 'someone_profile' %}?created_by={{member}}">{{member}}<br/></a>
+	    {% endfor %}
+	    <ul>Followed By : </ul>
+	    {% for member in followed_by_list %}
+			<a class="following_followed_by_list" href="{% url 'someone_profile' %}?created_by={{member}}">{{member}}<br/></a>
+	    {% endfor %}
+	</ul>
+	{% if following_status == 'Y' %}
+		<form method="post" action="{% url 'unfollow' %}" class="follow_or_unfollow">
+			<div>
+				<input type="hidden" name="user_being_viewed" value="{{user_being_viewed.user.username}}">
+				<input type="hidden" name="its_posts"         value="{{its_posts}}">
+			</div>
+			<input type="submit" name="unfollow_button" value="UNFOLLOW">
+			{% csrf_token %}
+		</form>
+	{% else %}
+		<form method="post" action="{% url 'follow' %}" class="follow_or_unfollow">
+			<div>
+				<input type="hidden" name="user_being_viewed" value="{{user_being_viewed.user.username}}">
+				<input type="hidden" name="its_posts"         value="{{its_posts}}">
+			</div>			
+			<input type="submit" name="follow_button" value="FOLLOW">
+			{% csrf_token %}
+		</form>
+	{% endif %}
+{% endblock %}

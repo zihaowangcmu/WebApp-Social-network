@@ -1,0 +1,15 @@
+{% extends "socialnetwork/base.html" %}
+
+{% block current_page %}
+    ~ Welcome to Secret Base ~
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'register' %}" class="register_form">
+        <table>
+            {{form}}
+        </table>
+        {% csrf_token %}
+        <input type="submit" value="Register" />
+    </form>
+{% endblock %}

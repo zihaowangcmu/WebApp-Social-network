@@ -1,0 +1,15 @@
+*.log
+*.pot
+*.pyc
+local_settings.py
+
+# Editor backup files
+*~
+*#
+*.swp
+
+# Mac OS data store file
+.DS_Store
+
+# Django's SQL Lite Database File
+db.sqlite3

@@ -1,0 +1,21 @@
+{% extends "socialnetwork/base.html" %}
+
+{% block current_page %}
+	~ Follower's News ~
+{% endblock %}
+
+{% block navigation_bar %}
+    <ul class="nav_class_list">
+	  <li><a class="nav_class_bullet" href="{% url 'myProfile' %}">{{user.username}}</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'global_stream' %}">Stream</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'follower_stream' %}">Following</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'logout' %}" method="get">Logout</a></li>
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<!-- only set the id to start get the following list -->
+	<!-- <div id="start_refresh_following_page"></div> -->
+	<div class='following_poster'>
+	</div>
+{% endblock %}

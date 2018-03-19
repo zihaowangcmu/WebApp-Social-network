@@ -1,0 +1,18 @@
+{% extends "socialnetwork/base.html" %}
+
+{% block current_page %}
+	~ Someone's Secret Base ~
+{% endblock %}
+
+{% block navigation_bar %}
+    <ul class="nav_class_list">
+	  <li><a class="nav_class_bullet" href="{% url 'myProfile' %}">{{user.username}}</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'global_stream' %}">Stream</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'follower_stream' %}">Following</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'logout' %}" method="get">Logout</a></li>
+	</ul>
+{% endblock %}
+
+{% block content %}
+	{{message}}
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "socialnetwork/base.html" %}
+
+{% block current_page %}
+	~ My Secret Base ~
+{% endblock %}
+
+{% block navigation_bar %}
+    <ul class="nav_class_list">
+	  <li><a class="nav_class_bullet" href="{% url 'myProfile' %}">{{user.username}}</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'global_stream' %}">Stream</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'follower_stream' %}">Following</a></li>
+	  <li><a class="nav_class_bullet" href="{% url 'logout' %}" method="get">Logout</a></li>
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<ul class="myProfile_list">
+		{% for item in items %}
+	        {% if item.picture %}
+	            <img src="{% url 'get_photo' item.id %}" alt="user picture fail to display" width="200px">
+	            <br>
+	        {% endif %}
+		{% endfor %}
+		<ul>
+			<form enctype="multipart/form-data" action="{% url 'add_photo' %}" method="post" class="add-form">
+				<table>
+				    {% for field in form.visible_fields %}
+				        <tr>
+				            <td>{{field.label_tag}}</td>
+				            <td>{{field}}</td>
+				            <td class="error">
+				                {% for error in field.errors %} {{error}} {% endfor %}
+				            </td>
+				        </tr>
+				    {% endfor %}
+				    <tr><td colspan="3"><input type="submit" value="Submit"></td></tr>
+				</table>
+			    {% csrf_token %}
+			</form>
+		</ul>
+		<ul>First Name: {{user.first_name}}</ul>
+		<ul>Last Name : {{user.last_name}} </ul>
+		<ul>User Name : {{user.username}}  </ul>
+		<ul>Bio       : {{user.profile.bio}}</ul>
+		<ul>
+			<form method="post" action="{% url 'edit_bio' %}" class='edit_bio'>
+				<label>Edit Your Bio:</label>
+				<input type="text" name="bio">
+				<input type="submit" value="UPDATE">
+				{% csrf_token %}
+			</form>
+		</ul>
+		<ul>Following : </ul>
+		{% for member in following_list %}
+			<a class="following_followed_by_list" href="{% url 'someone_profile' %}?created_by={{member}}">{{member}}<br/></a>
+	    {% endfor %}
+	    <ul>Followed By : </ul>
+		{% for member in followed_by_list %}
+			<a class="following_followed_by_list" href="{% url 'someone_profile' %}?created_by={{member}}">{{member}}<br/></a>
+	    {% endfor %}
+	</ul>
+{% endblock %}
