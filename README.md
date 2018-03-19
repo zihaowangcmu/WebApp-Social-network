@@ -9,9 +9,9 @@ To implement on cloud, some parts will be modified.
 
 ### Prerequisites
 
-1.Install Python 3.5.4(or above)
-2.Install Django
-3.Refer to the Django documentation and setup the virtual enviroment.
+1.Install Python 3.5.4(or above);
+2.Install Django;
+3.Refer to the Django documentation and setup the virtual enviroment;
 4.Change path to the folder,then:
 
 ```
