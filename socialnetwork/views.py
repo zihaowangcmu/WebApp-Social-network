@@ -160,7 +160,12 @@ def unfollow(request):
 	user_being_viewed_name = request.POST.get('user_being_viewed', False)
 	user_being_viewed = Profile.objects.filter(user__username=user_being_viewed_name)
 	this_user = user_being_viewed
-	this_user = list(this_user)[0]
+	try:
+		this_user = list(this_user)[0]
+	except:
+		message = "Sorry, this user doesn't exist."
+		context['message'] = message
+		return render(request, 'socialnetwork/someone_not_exist.html', context)
 	current_user = request.user
 	current_user.profile.following.remove(list(user_being_viewed)[0])
 	context['user_being_viewed'] = this_user
