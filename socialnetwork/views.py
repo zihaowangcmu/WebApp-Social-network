@@ -114,10 +114,6 @@ def someone_profile(request):
 	context['following_list']   = getFollowingList(this_user)
 	context['followed_by_list'] = getFollowedByList(this_user)
 	context['items'] = Profile.objects.filter(user=this_user.user)
-	# print('some-pro')
-	# print(type(context['items']))
-	# print(context['items'])
-	# print('###################')
 	return render(request, 'socialnetwork/someone_profile.html', context)
 
 @login_required
@@ -130,10 +126,14 @@ def follow(request):
 		return render(request, 'socialnetwork/someone_not_exist.html', context)
 
 	user_being_viewed_name = request.POST.get('user_being_viewed', False)
-	# print(user_being_viewed_name)
 	user_being_viewed = Profile.objects.filter(user__username=user_being_viewed_name)
 	this_user = user_being_viewed
-	this_user = list(this_user)[0]
+	try:
+		this_user = list(this_user)[0]
+	except:
+		message = "Sorry, this user doesn't exist."
+		context['message'] = message
+		return render(request, 'socialnetwork/someone_not_exist.html', context)
 	current_user = request.user
 	current_user.profile.following.add(list(user_being_viewed)[0])
 	context['user_being_viewed'] = this_user
@@ -144,12 +144,7 @@ def follow(request):
 	user_being_viewed = list(user_being_viewed)[0]
 	context['following_list']   = getFollowingList(user_being_viewed)
 	context['followed_by_list'] = getFollowedByList(user_being_viewed)
-	##########################################
 	context['items'] = Profile.objects.filter(user=this_user.user)
-	# print('follow')
-	# print(type(context['items']))
-	# print(context['items'])
-	# print('###################')
 	return render(request, 'socialnetwork/someone_profile.html', context)
 
 # Unfollow is just like follow
@@ -204,6 +199,7 @@ def someone_not_exist(request):
 def loginPage(request):
     return render(request, 'socialnetwork/login.html', {})
 
+@transaction.atomic
 def register(request):
 	context = {}
 
